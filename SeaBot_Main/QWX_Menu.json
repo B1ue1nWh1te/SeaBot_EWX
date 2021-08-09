@@ -1,0 +1,69 @@
+{
+    "button": [
+        {
+            "name": "榜单",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "B站排行榜",
+                    "key": "bilibili"
+                },
+                {
+                    "type": "click",
+                    "name": "网易云排行榜",
+                    "key": "wangyiyun"
+                },
+                {
+                    "type": "click",
+                    "name": "同花顺快讯",
+                    "key": "tonghuashun"
+                },
+                {
+                    "type": "click",
+                    "name": "知乎热榜",
+                    "key": "zhihu"
+                },
+                {
+                    "type": "click",
+                    "name": "微博热搜榜",
+                    "key": "weibo"
+                }
+            ]
+        },
+        {
+            "name": "深海之眼",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "博客",
+                    "url": "https://www.seaeye.cn"
+                },
+                {
+                    "type": "click",
+                    "name": "最新文章",
+                    "key": "blog"
+                }
+            ]
+        },
+        {
+            "name": "其他",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "疫情数据",
+                    "key": "epidemic"
+                },
+                {
+                    "type": "click",
+                    "name": "天气情况",
+                    "key": "weather"
+                },
+                {
+                    "type": "click",
+                    "name": "使用指南",
+                    "key": "help"
+                }
+            ]
+        }
+    ]
+}

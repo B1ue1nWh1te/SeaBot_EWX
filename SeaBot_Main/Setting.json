@@ -1,0 +1,19 @@
+{
+    "EnterpriseWechat": {
+        "CorpID": "<填写企业微信CorpID>",
+        "CorpSecret": "<填写企业微信CorpSecret>",
+        "AgentID": "<填写企业微信AgentID>",
+        "ManagerID": "<填写管理员的企业微信UserID>",
+        "TokenApi": "https://qyapi.weixin.qq.com/cgi-bin/gettoken",
+        "PushApi": "https://qyapi.weixin.qq.com/cgi-bin/message/send",
+        "Token": "<填写企业微信应用消息回调服务的Token>",
+        "EncodingAESKey": "<填写企业微信应用消息回调服务的EncodingAESKey>"
+    },
+    "Main": {
+        "SeaEyeApi": "<填写后端API接口地址>"
+    },
+    "Api": {
+        "Host": "0.0.0.0",
+        "Port": 5001
+    }
+}

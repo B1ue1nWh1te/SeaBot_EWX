@@ -1,0 +1,55 @@
+{
+    "Ability": {
+        "Headers": {
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
+        },
+        "WeatherApi": "http://wthrcdn.etouch.cn/weather_mini",
+        "BilibiliRankApi": "https://www.bilibili.com/v/popular/rank/",
+        "BilibiliImageApi": "https://api.bilibili.com/x/web-interface/view",
+        "BilibiliTypeMap": {
+            "全站": "all",
+            "国创相关": "guochuang",
+            "动画": "douga",
+            "音乐": "music",
+            "舞蹈": "dance",
+            "游戏": "game",
+            "知识": "knowledge",
+            "科技": "tech",
+            "运动": "sports",
+            "汽车": "car",
+            "生活": "life",
+            "美食": "food",
+            "动物圈": "animal",
+            "鬼畜": "kichiku",
+            "时尚": "fashion",
+            "娱乐": "ent",
+            "影视": "cinephile",
+            "原创": "origin",
+            "新人": "rookie"
+        },
+        "WeiboRankApi": "https://s.weibo.com/top/summary",
+        "WeiboTopImage": "https://www.seaeye.cn/img/WeiboHotImage.jpg",
+        "WeiboTopTypeMap": {
+            "热搜": "realtimehot",
+            "要闻": "socialevent"
+        },
+        "ZhihuRankApi": "https://api.zhihu.com/topstory/hot-list",
+        "ZhihuQuestionApi": "https://www.zhihu.com/question/",
+        "TonghuashunApi": "https://news.10jqka.com.cn/tapp/news/push/stock",
+        "WangyiyunRankApi": "https://music.163.com/api/v6/playlist/detail",
+        "WangyiyunSongApi": "https://music.163.com/#/song",
+        "WangyiyunTypeMap": {
+            "热歌": "3778678",
+            "新歌": "3779629",
+            "原创": "2884035",
+            "飙升": "19723756"
+        },
+        "BaiduEpidemicDataApi": "https://voice.baidu.com/newpneumonia/getv2",
+        "BaiduEpidemicNewsApi": "https://opendata.baidu.com/data/inner",
+        "BlogApi": "<填写博客地址>"
+    },
+    "Api": {
+        "Host": "0.0.0.0",
+        "Port": 5000
+    }
+}

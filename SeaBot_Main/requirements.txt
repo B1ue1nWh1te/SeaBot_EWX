@@ -1,0 +1,6 @@
+requests==2.26.0
+gevent==21.8.0
+Flask==0.10.1
+loguru==0.5.3
+pycrypto==2.6.1
+Werkzeug>=0.16.1
