@@ -1,9 +1,18 @@
 {
+    "EnterpriseWechat": {
+        "CorpID": "<填写企业微信CorpID>",
+        "CorpSecret": "<填写企业微信CorpSecret>",
+        "AgentID": "<填写企业微信AgentID>",
+        "Token": "<填写企业微信应用消息回调服务的Token>",
+        "EncodingAESKey": "<填写企业微信应用消息回调服务的EncodingAESKey>",
+        "ManagerID": "<填写管理员的企业微信UserID 通常为名字的拼音缩写 每个字首字母要大写>",
+        "TokenApi": "https://qyapi.weixin.qq.com/cgi-bin/gettoken",
+        "PushApi": "https://qyapi.weixin.qq.com/cgi-bin/message/send"
+    },
     "Ability": {
         "Headers": {
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36"
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
         },
-        "WeatherApi": "http://wthrcdn.etouch.cn/weather_mini",
         "BilibiliRankApi": "https://www.bilibili.com/v/popular/rank/",
         "BilibiliImageApi": "https://api.bilibili.com/x/web-interface/view",
         "BilibiliTypeMap": {
@@ -27,15 +36,12 @@
             "原创": "origin",
             "新人": "rookie"
         },
-        "WeiboRankApi": "https://s.weibo.com/top/summary",
-        "WeiboTopImage": "https://www.seaeye.cn/img/WeiboHotImage.jpg",
-        "WeiboTopTypeMap": {
-            "热搜": "realtimehot",
-            "要闻": "socialevent"
-        },
+        "WeiboRankApi": "https://weibo.com/ajax/statuses/hot_band",
+        "WeiboTopImageUrl": "https://img.seaeye.cn/img/WeiboHotImage.jpg",
         "ZhihuRankApi": "https://api.zhihu.com/topstory/hot-list",
         "ZhihuQuestionApi": "https://www.zhihu.com/question/",
         "TonghuashunApi": "https://news.10jqka.com.cn/tapp/news/push/stock",
+        "CCTVNewsApi": "https://news.cctv.com/2019/07/gaiban/cmsdatainterface/page/news_1.jsonp",
         "WangyiyunRankApi": "https://music.163.com/api/v6/playlist/detail",
         "WangyiyunSongApi": "https://music.163.com/#/song",
         "WangyiyunTypeMap": {
@@ -46,10 +52,10 @@
         },
         "BaiduEpidemicDataApi": "https://voice.baidu.com/newpneumonia/getv2",
         "BaiduEpidemicNewsApi": "https://opendata.baidu.com/data/inner",
-        "BlogApi": "<填写博客地址>"
+        "BlogApi": "https://www.seaeye.cn/"
     },
-    "Api": {
+    "Service": {
         "Host": "0.0.0.0",
-        "Port": 5000
+        "Port": 8080
     }
 }

@@ -5,18 +5,8 @@
             "sub_button": [
                 {
                     "type": "click",
-                    "name": "B站排行榜",
-                    "key": "bilibili"
-                },
-                {
-                    "type": "click",
-                    "name": "网易云排行榜",
-                    "key": "wangyiyun"
-                },
-                {
-                    "type": "click",
-                    "name": "同花顺快讯",
-                    "key": "tonghuashun"
+                    "name": "微博热搜榜",
+                    "key": "weibo"
                 },
                 {
                     "type": "click",
@@ -25,18 +15,28 @@
                 },
                 {
                     "type": "click",
-                    "name": "微博热搜榜",
-                    "key": "weibo"
+                    "name": "B站排行榜",
+                    "key": "bilibili"
+                },
+                {
+                    "type": "click",
+                    "name": "网易云排行榜",
+                    "key": "wangyiyun"
                 }
             ]
         },
         {
-            "name": "深海之眼",
+            "name": "资讯",
             "sub_button": [
                 {
-                    "type": "view",
-                    "name": "博客",
-                    "url": "https://www.seaeye.cn"
+                    "type": "click",
+                    "name": "央视新闻",
+                    "key": "cctvnews"
+                },
+                {
+                    "type": "click",
+                    "name": "同花顺快讯",
+                    "key": "tonghuashun"
                 },
                 {
                     "type": "click",
@@ -49,14 +49,14 @@
             "name": "其他",
             "sub_button": [
                 {
-                    "type": "click",
-                    "name": "疫情数据",
-                    "key": "epidemic"
+                    "type": "view",
+                    "name": "深海之眼",
+                    "url": "https://www.seaeye.cn"
                 },
                 {
                     "type": "click",
-                    "name": "天气情况",
-                    "key": "weather"
+                    "name": "疫情数据",
+                    "key": "epidemic"
                 },
                 {
                     "type": "click",
