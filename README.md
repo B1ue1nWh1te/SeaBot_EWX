@@ -57,7 +57,7 @@ SeaBot 计划的 微信 分支
 
 1. 到[企业微信](https://work.weixin.qq.com/)创建一个企业号，进入后台开启自定义机器人。
 2. 参考[官方教程](https://developer.work.weixin.qq.com/document/path/90930)配置消息回调服务，代码在[Main.py](https://github.com/B1ue1nWh1te/SeaBot_WX/tree/main/Main.py)中已经写好了。
-3. 参考[官方教程](https://developer.work.weixin.qq.com/document/path/90231)配置自定义菜单栏。
+3. 参考[官方教程](https://developer.work.weixin.qq.com/document/path/90231)配置自定义菜单栏,菜单栏配置文件可以参考`QWX_Menu.json`。
 4. 找到以下各个参数，填入`Setting.json`的对应位置中,需要的参数有：`CorpID`、`CorpSecret`、`AgentID`、`Token`、`EncodingAESKey`、`ManagerID`。
 5. (可选)如果想在微信中使用机器人而不是在企业微信中使用，那么需要在企业微信后台开启微信插件，实现消息同步接收。
 6. 部署到服务器。
