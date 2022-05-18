@@ -7,6 +7,6 @@ services:
     volumes:
       - "./src/:/seabot_wx/"
     ports:
-      - "1024:8080" # 映射端口到宿主机 宿主机端口:容器端口
+      - "8080:8080"
     environment:
       - TZ=Asia/Shanghai
