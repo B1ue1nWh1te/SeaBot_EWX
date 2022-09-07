@@ -1,11 +1,11 @@
 {
-    "EnterpriseWechat": {
+    "Pusher": {
         "CorpID": "<填写企业微信CorpID>",
         "CorpSecret": "<填写企业微信CorpSecret>",
         "AgentID": "<填写企业微信AgentID>",
+        "ManagerID": "<填写管理员的企业微信UserID 通常为名字的拼音缩写 每个字首字母要大写>",
         "Token": "<填写企业微信应用消息回调服务的Token>",
         "EncodingAESKey": "<填写企业微信应用消息回调服务的EncodingAESKey>",
-        "ManagerID": "<填写管理员的企业微信UserID 通常为名字的拼音缩写 每个字首字母要大写>",
         "TokenApi": "https://qyapi.weixin.qq.com/cgi-bin/gettoken",
         "PushApi": "https://qyapi.weixin.qq.com/cgi-bin/message/send"
     },
@@ -13,46 +13,13 @@
         "Headers": {
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
         },
-        "BilibiliRankApi": "https://www.bilibili.com/v/popular/rank/",
-        "BilibiliImageApi": "https://api.bilibili.com/x/web-interface/view",
-        "BilibiliTypeMap": {
-            "全站": "all",
-            "国创相关": "guochuang",
-            "动画": "douga",
-            "音乐": "music",
-            "舞蹈": "dance",
-            "游戏": "game",
-            "知识": "knowledge",
-            "科技": "tech",
-            "运动": "sports",
-            "汽车": "car",
-            "生活": "life",
-            "美食": "food",
-            "动物圈": "animal",
-            "鬼畜": "kichiku",
-            "时尚": "fashion",
-            "娱乐": "ent",
-            "影视": "cinephile",
-            "原创": "origin",
-            "新人": "rookie"
-        },
         "WeiboRankApi": "https://weibo.com/ajax/statuses/hot_band",
-        "WeiboTopImageUrl": "https://img.seaeye.cn/img/WeiboHotImage.jpg",
         "ZhihuRankApi": "https://api.zhihu.com/topstory/hot-list",
         "ZhihuQuestionApi": "https://www.zhihu.com/question/",
-        "TonghuashunApi": "https://news.10jqka.com.cn/tapp/news/push/stock",
         "CCTVNewsApi": "https://news.cctv.com/2019/07/gaiban/cmsdatainterface/page/news_1.jsonp",
-        "WangyiyunRankApi": "https://music.163.com/api/v6/playlist/detail",
-        "WangyiyunSongApi": "https://music.163.com/#/song",
-        "WangyiyunTypeMap": {
-            "热歌": "3778678",
-            "新歌": "3779629",
-            "原创": "2884035",
-            "飙升": "19723756"
-        },
-        "BaiduEpidemicDataApi": "https://voice.baidu.com/newpneumonia/getv2",
-        "BaiduEpidemicNewsApi": "https://opendata.baidu.com/data/inner",
-        "BlogApi": "https://www.seaeye.cn/"
+        "TonghuashunApi": "https://news.10jqka.com.cn/tapp/news/push/stock",
+        "LeetcodeApi": "https://leetcode-cn.com/graphql",
+        "LeetcodeProblemApi": "https://leetcode-cn.com/problems/"
     },
     "Service": {
         "Host": "0.0.0.0",

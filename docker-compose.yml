@@ -3,9 +3,9 @@ services:
   seabot:
     build: .
     restart: always
-    container_name: seabot_wx
+    container_name: seabot_ewx
     volumes:
-      - "./src/:/seabot_wx/"
+      - "./src/:/seabot_ewx/"
     ports:
       - "8080:8080"
     environment:

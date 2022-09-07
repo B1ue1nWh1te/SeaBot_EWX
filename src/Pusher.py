@@ -1,123 +1,239 @@
-import requests
-import time
-import json
 import sys
-
-from requests.models import Response
-import Logger
-
+import json
+import requests
+import Log
 
 try:
-    Logger.info("[推送初始化]正在加载配置")
-    with open("Setting.json", "r", encoding="utf-8") as f:
-        Setting = json.load(f)
-    CorpID = Setting["EnterpriseWechat"]["CorpID"]
-    CorpSecret = Setting["EnterpriseWechat"]["CorpSecret"]
-    AgentID = Setting["EnterpriseWechat"]["AgentID"]
-    Manager = Setting["EnterpriseWechat"]["ManagerID"]
-    TokenApi = Setting["EnterpriseWechat"]["TokenApi"]
-    PushApi = Setting["EnterpriseWechat"]["PushApi"]
-    Logger.success("[推送初始化]配置加载完成")
+    Log.info("[推送功能初始化]正在加载配置")
+    with open("setting.json", "r", encoding="utf-8") as f:
+        Setting = json.load(f)["Pusher"]
+    AgentID = Setting["AgentID"]
+    ManagerID = Setting["ManagerID"]
+    PushApi = Setting["PushApi"]
+    AccessToken = {"access_token": requests.get(Setting["TokenApi"], params={"corpid": Setting["CorpID"], "corpsecret": Setting["CorpSecret"]}, timeout=5).json()['access_token']}
+    Log.success("[推送功能初始化][成功]配置加载完成")
 except Exception:
     ExceptionInformation = sys.exc_info()
-    Text = f'[推送初始化异常]异常信息为:{ExceptionInformation}'
-    Logger.error(Text)
-    sys.exit(0)
+    Log.error(f'[推送功能初始化][失败]异常信息为:{ExceptionInformation}')
+    sys.exit()
 
 
-def PushToEnterpriseWechat(Type="text", Receiver="all", **kwargs):
+def PushText(Title: str, Message: str, Receiver: str = "manager") -> bool:
+    from time import strftime
     try:
-        global CorpID, CorpSecret, AgentID, Manager, TokenApi, PushApi
+        global AgentID, ManagerID, PushApi, AccessToken
         if Receiver == "all":
             ToUser = "@all"
         elif Receiver == "manager":
-            ToUser = Manager
+            ToUser = ManagerID
         else:
             ToUser = Receiver
-        Logger.info(f'[推送接口]正在推送至企业微信[{ToUser}]')
-        Key = {"corpid": CorpID, "corpsecret": CorpSecret}
-        AccessToken = {"access_token": requests.get(TokenApi, params=Key, timeout=5).json()['access_token']}
-        if Type == "text":
-            Time = time.strftime("%m{}%d{} %H:%M:%S").format('月', '日')
-            Message = f'[{kwargs.get("Title", "无标题")}]{Time}\n{kwargs.get("Message", "")}'
-            Data = {
-                "touser": ToUser,
-                "msgtype": "text",
-                "agentid": AgentID,
-                "text": {
-                    "content": Message
-                }
-            }
-        elif Type == "image_text":
-            Articles = kwargs.get("Articles", [])
-            if len(Articles) == 0:
-                Logger.error("[推送接口]推送失败,内容为空")
-                return
-            Data = {
-                "touser": ToUser,
-                "msgtype": "news",
-                "agentid": AgentID,
-                "news": {"articles": Articles}
-            }
-        elif Type == "textcard":
-            Textcard = kwargs.get("Textcard", {})
-            if len(Textcard) == 0:
-                Logger.error("[推送接口]推送失败,内容为空")
-                return
-            Textcard["btntxt"] = "查看详情"
-            Data = {
-                "touser": ToUser,
-                "msgtype": "textcard",
-                "agentid": AgentID,
-                "textcard": Textcard,
-            }
-        else:
-            Logger.error("[推送接口]推送失败,推送类型不支持")
-            return
-        Data = json.dumps(Data)  # 将json转换为str
+        Time = strftime("%m{}%d{} %H:%M:%S").format('月', '日')
+        Message = f'[{Title}]\n[{Time}]\n\n{Message}'
+        Data = {
+            "touser": ToUser,
+            "msgtype": "text",
+            "agentid": AgentID,
+            "text": {
+                "content": Message
+            },
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
         with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
             if (Response.status_code == 200):
-                Logger.success(f'[推送接口]推送成功,内容为:{Data}')
+                Log.success(f'[推送功能][文本消息]推送成功\n[接收者]{ToUser}\n[内容]{Message}')
+                return True
             else:
-                Logger.error(f'[推送接口]推送失败,Response状态码为:{Response.status_code}')
+                Log.error(f'[推送功能][文本消息]推送失败\n[接收者]{ToUser}\n[内容]{Message}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
     except Exception:
         ExceptionInformation = sys.exc_info()
-        Text = f'[推送接口]推送异常,异常信息为:{ExceptionInformation}'
-        Logger.error(Text)
+        Log.error(f'[推送功能][文本消息]推送异常，异常信息为:{ExceptionInformation}')
+        return False
 
 
-if __name__ == "__main__":
+def PushTextCard(Title: str, Description: str, Url: str, ButtonText: str, Receiver: str = "manager") -> bool:
     try:
-        Logger.info(f'[推送接口]主动推送模式')
-        Type = input("输入消息类型:")
-        if Type == "text":
-            Message = input("输入指令:")
-            Receiver, Title, Message = Message.split()
-            flag = input("是否确定推送？(1/0):")
-            if (flag == "1"):
-                PushToEnterpriseWechat("text", Receiver, Message=Message, Title=Title)
+        global AgentID, ManagerID, PushApi, AccessToken
+        if Receiver == "all":
+            ToUser = "@all"
+        elif Receiver == "manager":
+            ToUser = ManagerID
+        else:
+            ToUser = Receiver
+        Textcard = {"title": Title, "description": Description, "url": Url, "btntxt": ButtonText}
+        Data = {
+            "touser": ToUser,
+            "msgtype": "textcard",
+            "agentid": AgentID,
+            "textcard": Textcard,
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
+        with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
+            if (Response.status_code == 200):
+                Log.success(f'[推送功能][文本卡片消息]推送成功\n[接收者]{ToUser}\n[内容]{Textcard}')
+                return True
             else:
-                Logger.info(f'[推送接口]取消推送')
-        elif Type == "image_text":
-            Message = input("输入指令:")
-            Receiver, Articles = Message.split()
-            Articles = eval(Articles)
-            flag = input("是否确定推送？(1/0):")
-            if (flag == "1"):
-                PushToEnterpriseWechat("image_text", Receiver, Articles=Articles)
-            else:
-                Logger.info(f'[推送接口]取消推送')
-        elif Type == "textcard":
-            Message = input("输入指令:")
-            Receiver, Textcard = Message.split()
-            Textcard = dict(eval(Textcard))
-            flag = input("是否确定推送？(1/0):")
-            if (flag == "1"):
-                PushToEnterpriseWechat("textcard", Receiver, Textcard=Textcard)
-            else:
-                Logger.info(f'[推送接口]取消推送')
+                Log.error(f'[推送功能][文本卡片消息]推送失败\n[接收者]{ToUser}\n[内容]{Textcard}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
     except Exception:
         ExceptionInformation = sys.exc_info()
-        Text = f'[运行异常]异常信息为:{ExceptionInformation}'
-        Logger.error(Text)
-        sys.exit(0)
+        Log.error(f'[推送功能][文本卡片消息]推送异常，异常信息为:{ExceptionInformation}')
+        return False
+
+
+def PushImageTextCard(Articles: list, Receiver: str = "manager") -> bool:
+    try:
+        global AgentID, ManagerID, PushApi, AccessToken
+        if Receiver == "all":
+            ToUser = "@all"
+        elif Receiver == "manager":
+            ToUser = ManagerID
+        else:
+            ToUser = Receiver
+        Data = {
+            "touser": ToUser,
+            "msgtype": "news",
+            "agentid": AgentID,
+            "news": {"articles": Articles},
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
+        with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
+            if (Response.status_code == 200):
+                Log.success(f'[推送功能][图文卡片消息]推送成功\n[接收者]{ToUser}\n[内容]{Articles}')
+                return True
+            else:
+                Log.error(f'[推送功能][图文卡片消息]推送失败\n[接收者]{ToUser}\n[内容]{Articles}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
+    except Exception:
+        ExceptionInformation = sys.exc_info()
+        Log.error(f'[推送功能][图文卡片消息]推送异常，异常信息为:{ExceptionInformation}')
+        return False
+
+
+def PushButtonCard(Title: str, Description: str, Text: str, Items: list, Buttons: list, Receiver: str = "manager") -> bool:
+    try:
+        global AgentID, ManagerID, PushApi, AccessToken
+        if Receiver == "all":
+            ToUser = "@all"
+        elif Receiver == "manager":
+            ToUser = ManagerID
+        else:
+            ToUser = Receiver
+        Data = {
+            "touser": ToUser,
+            "msgtype": "template_card",
+            "agentid": AgentID,
+            "template_card": {
+                "card_type": "button_interaction",
+                "main_title": {
+                    "title": Title,
+                    "desc": Description
+                },
+                "sub_title_text": Text,
+                "horizontal_content_list": Items,
+                "button_list": Buttons
+            },
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
+        with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
+            if (Response.status_code == 200):
+                Log.success(f'[推送功能][模板卡片消息][按钮交互型]推送成功\n[接收者]{ToUser}\n[内容]{Data["template_card"]}')
+                return True
+            else:
+                Log.error(f'[推送功能][模板卡片消息][按钮交互型]推送失败\n[接收者]{ToUser}\n[内容]{Data["template_card"]}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
+    except Exception:
+        ExceptionInformation = sys.exc_info()
+        Log.error(f'[推送功能][模板卡片消息][按钮交互型]推送异常，异常信息为:{ExceptionInformation}')
+        return False
+
+
+def PushCheckboxCard(Title: str, Description: str, QuestionKey: str, Options: list, SubmitButton: dict, Receiver: str = "manager") -> bool:
+    try:
+        global AgentID, ManagerID, PushApi, AccessToken
+        if Receiver == "all":
+            ToUser = "@all"
+        elif Receiver == "manager":
+            ToUser = ManagerID
+        else:
+            ToUser = Receiver
+        Data = {
+            "touser": ToUser,
+            "msgtype": "template_card",
+            "agentid": AgentID,
+            "template_card": {
+                "card_type": "vote_interaction",
+                "main_title": {
+                    "title": Title,
+                    "desc": Description
+                },
+                "checkbox": {
+                    "question_key": QuestionKey,
+                    "option_list": Options,
+                    "mode": 1
+                },
+                "submit_button": SubmitButton
+            },
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
+        with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
+            if (Response.status_code == 200):
+                Log.success(f'[推送功能][模板卡片消息][投票选择型]推送成功\n[接收者]{ToUser}\n[内容]{Data["template_card"]}')
+                return True
+            else:
+                Log.error(f'[推送功能][模板卡片消息][投票选择型]推送失败\n[接收者]{ToUser}\n[内容]{Data["template_card"]}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
+    except Exception:
+        ExceptionInformation = sys.exc_info()
+        Log.error(f'[推送功能][模板卡片消息][投票选择型]推送异常，异常信息为:{ExceptionInformation}')
+        return False
+
+
+def PushDropListCard(Title: str, Description: str, Selects: list, SubmitButton: dict, Receiver: str = "manager") -> bool:
+    try:
+        global AgentID, ManagerID, PushApi, AccessToken
+        if Receiver == "all":
+            ToUser = "@all"
+        elif Receiver == "manager":
+            ToUser = ManagerID
+        else:
+            ToUser = Receiver
+        Data = {
+            "touser": ToUser,
+            "msgtype": "template_card",
+            "agentid": AgentID,
+            "template_card": {
+                "card_type": "multiple_interaction",
+                "main_title": {
+                    "title": Title,
+                    "desc": Description
+                },
+                "select_list": Selects,
+                "submit_button": SubmitButton
+            },
+            "enable_duplicate_check": 1,
+            "duplicate_check_interval": 30
+        }
+        Data = json.dumps(Data)
+        with requests.post(PushApi, params=AccessToken, data=Data, timeout=5) as Response:
+            if (Response.status_code == 200):
+                Log.success(f'[推送功能][模板卡片消息][多项选择型]推送成功\n[接收者]{ToUser}\n[内容]{Data["template_card"]}')
+                return True
+            else:
+                Log.error(f'[推送功能][模板卡片消息][多项选择型]推送失败\n[接收者]{ToUser}\n[内容]{Data["template_card"]}\n[状态码]{Response.status_code}\n[响应体]{Response.text}')
+                return False
+    except Exception:
+        ExceptionInformation = sys.exc_info()
+        Log.error(f'[推送功能][模板卡片消息][多项选择型]推送异常，异常信息为:{ExceptionInformation}')
+        return False

@@ -1,6 +1,6 @@
 requests
+loguru
+pycryptodome
 gevent
 Flask
-loguru
-pycrypto
 Werkzeug>=0.16.1

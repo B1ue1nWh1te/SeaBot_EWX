@@ -1,7 +1,7 @@
 {
     "button": [
         {
-            "name": "榜单",
+            "name": "时讯",
             "sub_button": [
                 {
                     "type": "click",
@@ -15,21 +15,6 @@
                 },
                 {
                     "type": "click",
-                    "name": "B站排行榜",
-                    "key": "bilibili"
-                },
-                {
-                    "type": "click",
-                    "name": "网易云排行榜",
-                    "key": "wangyiyun"
-                }
-            ]
-        },
-        {
-            "name": "资讯",
-            "sub_button": [
-                {
-                    "type": "click",
                     "name": "央视新闻",
                     "key": "cctvnews"
                 },
@@ -37,11 +22,6 @@
                     "type": "click",
                     "name": "同花顺快讯",
                     "key": "tonghuashun"
-                },
-                {
-                    "type": "click",
-                    "name": "最新文章",
-                    "key": "blog"
                 }
             ]
         },
@@ -55,13 +35,8 @@
                 },
                 {
                     "type": "click",
-                    "name": "疫情数据",
-                    "key": "epidemic"
-                },
-                {
-                    "type": "click",
-                    "name": "使用指南",
-                    "key": "help"
+                    "name": "每日一题",
+                    "key": "leetcode"
                 }
             ]
         }

@@ -1,6 +1,6 @@
 FROM python:3.8
 
-WORKDIR /seabot_wx
+WORKDIR /seabot_ewx
 
 COPY ./requirements.txt .
 
